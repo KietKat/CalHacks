@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Portfolio
+{% endblock %}
+
+{% block main %}
+    <table>
+        <thead>
+            <tr>
+                <th scope = "col">Name</th>
+                <th scope = "col">Symbol</th>
+                <th scope = "col">Price</th>
+                <th scope = "col">Share</th>
+                <th scope = "col">Sold Value</th>
+                <th scope = "col">Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in transactions if record["symbol"] != "N/A" %}
+            <tr>
+                <td> {{ record["name"] }} </td>
+                <td> {{ record["symbol"] }} </td>
+                <td> {{ record["price"] }} </td>
+                <td> {{ record["share"] }} </td>
+                <td> {{ record["price"] * record["share"] }} </td>
+                <td> {{ record["time"] }} </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Portfolio
+{% endblock %}
+
+{% block main %}
+    <table>
+        <thead>
+            <tr>
+                <th scope = "col">Name</th>
+                <th scope = "col">Symbol</th>
+                <th scope = "col">Current Price</th>
+                <th scope = "col">Total Share</th>
+                <th scope = "col">Current Value</th>
+                <th scope = "col">Profit</th>
+                <th scope = "col" colspan = "2"> Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records if record["symbol"] != "N/A" %}
+            <tr>
+                <td> {{ record["name"] }} </td>
+                <td> {{ record["symbol"] }} </td>
+                <td> {{ lookup(record["symbol"])["price"] }} </td>
+                <td> {{ record["total_share"] }} </td>
+                <td> {{ lookup(record["symbol"])["price"] * record["total_share"] }} </td>
+
+                {% if lookup(record["symbol"])["price"] > record["price"] %}
+                <td>
+                    <font color = "green">
+                        {{ lookup(record["symbol"])["price"] * record["total_share"] -
+                                            record["price"] * record["total_share"] }}
+                    </font>
+                </td>
+                {% elif lookup(record["symbol"])["price"] < record["price"] %}
+                <td>
+                    <font color = "red">
+                        {{ lookup(record["symbol"])["price"] * record["total_share"] -
+                                            record["price"] * record["total_share"] }}
+                    </font>
+                </td>
+                {% else %}
+                <td>
+                    <font color = "blue">
+                        {{ lookup(record["symbol"])["price"] * record["total_share"] -
+                                            record["price"] * record["total_share"] }}
+                    </font>
+                </td>
+                {% endif %}
+
+                <td>
+                    <button class="btn btn-primary" type="submit">
+                    <a href= "{{url_for('buy')}}"> <font color = "white"> Buy </font> </a>
+                    </button>
+                </td>
+                <td>
+                    <button class="btn btn-primary" type="submit">
+                    <a href= "{{url_for('sell') }}"> <font color = "white"> Sell </font> </a>
+                    </button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
